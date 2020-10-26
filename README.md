@@ -20,5 +20,11 @@ cd $HOME/src
 git clone https://github.com/veikman/dactyl-keyboard.git
 docker run -v $HOME/src/dactyl-keyboard:/opt -e UID=`id -u` -e GID=`id -g` --rm -it deekue/dmote make
 ```
+or use the [dmote.sh](https://raw.githubusercontent.com/deekue/docker-dmote/main/dmote.sh) wrapper
+```
+cd $HOME/src
+git clone https://github.com/veikman/dactyl-keyboard.git
+dmote.sh lein repl
+```
 See the [DMOTE Execution
 guide](https://github.com/veikman/dactyl-keyboard/blob/master/doc/execution.md) for commands.  Default is a BASH shell inside the container.
