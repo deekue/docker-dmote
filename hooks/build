@@ -16,8 +16,8 @@ function getImageTag {
 
 case "${0##*/}" in
   build)
-    docker build -t "$(getImageTag)" -f "${DOCKERFILE_PATH:-./Dockerfile}"
-    docker build --build-args WITH=openscad -t "$(getImageTag openscad)" -f "${DOCKERFILE_PATH:-./Dockerfile}"
+    docker build -t "$(getImageTag)" -f "${DOCKERFILE_PATH:-./Dockerfile}" .
+    docker build --build-args WITH=openscad -t "$(getImageTag openscad)" -f "${DOCKERFILE_PATH:-./Dockerfile}" .
     ;;
   push)
     docker push "$(getImageTag)"
