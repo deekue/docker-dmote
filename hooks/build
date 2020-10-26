@@ -9,22 +9,19 @@ export DOCKER_KIT=1
 flavours="base openscad"
 
 function getImageTag {
-  local -r image_flavour="${1:?arg1 is flavour}"
+  local -r image_flavour="${1:-${DOCKER_TAG:-latest}}"
 
-  echo "${DOCKER_REPO:-dmote}:${image_flavour}-${DOCKER_TAG:-latest}"
+  echo "${DOCKER_REPO:-dmote}:${image_flavour}"
 }
 
-basename="${0##*/}"
-case 
+case "${0##*/}" in
   build)
-    for image_flavour in ${flavours}; do
-      docker build --build-args WITH="${image_flavour}" -t "$(getImageTag ${image_flavour})" -f "${DOCKERFILE_PATH:-./Dockerfile}"
-    done
+    docker build -t "$(getImageTag)" -f "${DOCKERFILE_PATH:-./Dockerfile}"
+    docker build --build-args WITH=openscad -t "$(getImageTag openscad)" -f "${DOCKERFILE_PATH:-./Dockerfile}"
     ;;
   push)
-    for image_flavour in ${flavours}; do
-      docker push "$(getImageTag ${image_flavour})"
-    done
+    docker push "$(getImageTag)"
+    docker push "$(getImageTag openscad)"
     ;;
   *)
     echo "Unknown caller: $0" >&2
